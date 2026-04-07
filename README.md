@@ -85,8 +85,8 @@ In `src/data/index.ts`, add an object to the `PROJECTS` array:
   fullDesc: 'Full description shown when expanded. Can be long.',
   stack: ['TypeScript', 'React', 'PostgreSQL'],
   images: [
-    { src: '🖥️', alt: 'Screenshot 1' },   // replace src with real image path
-    { src: '📊', alt: 'Screenshot 2' },
+    { src: '', alt: 'Screenshot 1' },   // replace src with real image path
+    { src: '', alt: 'Screenshot 2' },
   ],
   githubUrl: 'https://github.com/...',
 }
