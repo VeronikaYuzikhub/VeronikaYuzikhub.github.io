@@ -1,4 +1,4 @@
-# Veronika Yuzik — Portfolio
+# Veronika Yuzik - Portfolio
 
 TypeScript + Vite + Three.js portfolio website.
 
@@ -6,44 +6,44 @@ TypeScript + Vite + Three.js portfolio website.
 
 ```
 portfolio/
-├── index.html                  ← HTML shell (no content — JS renders everything)
+├── index.html                  - HTML shell (no content - JS renders everything)
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
 └── src/
-    ├── main.ts                 ← Entry point — boots everything
+    ├── main.ts                 - Entry point - boots everything
     │
     ├── types/
-    │   └── index.ts            ← All TypeScript interfaces
+    │   └── index.ts            - All TypeScript interfaces
     │
     ├── data/
-    │   └── index.ts            ← ALL CONTENT IS HERE — edit to update site
+    │   └── index.ts            - ALL CONTENT IS HERE - edit to update site
     │
     ├── styles/
-    │   ├── variables.css       ← Design tokens (colors, fonts, radius)
-    │   ├── global.css          ← Reset, layout, shared components
-    │   └── components.css      ← Per-component styles
+    │   ├── variables.css       - Design tokens (colors, fonts, radius)
+    │   ├── global.css          - Reset, layout, shared components
+    │   └── components.css      - Per-component styles
     │
     ├── utils/
-    │   ├── cursor.ts           ← Custom cursor with lagging ring
-    │   ├── theme.ts            ← Light/dark toggle + localStorage
-    │   └── router.ts           ← SPA navigation (no page reloads)
+    │   ├── cursor.ts           - Custom cursor with lagging ring
+    │   ├── theme.ts            - Light/dark toggle + localStorage
+    │   └── router.ts           - SPA navigation (no page reloads)
     │
     ├── scenes/
-    │   ├── background.ts       ← Three.js: low-poly shapes + particle cloud
-    │   └── loading.ts          ← Canvas: flower bloom loading animation
+    │   ├── background.ts       - Three.js: low-poly shapes + particle cloud
+    │   └── loading.ts          - Canvas: flower bloom loading animation
     │
     └── components/
-        ├── Nav.ts              ← Top nav pills + side slide-out menu
-        ├── Lightbox.ts         ← Full-screen gallery viewer
-        ├── Footer.ts           ← Shared footer
+        ├── Nav.ts              - Top nav pills + side slide-out menu
+        ├── Lightbox.ts         - Full-screen gallery viewer
+        ├── Footer.ts           - Shared footer
         └── pages/
-            ├── HomePage.ts         ← Hero + featured project preview
-            ├── WorksPage.ts        ← Projects with stacked photos + expand
-            ├── RoadmapPage.ts      ← Career timeline
-            ├── SkillsPage.ts       ← Tech stack + languages
-            ├── CertificatesPage.ts ← Certificates grid
-            └── AboutPage.ts        ← Bio + contact info
+            ├── HomePage.ts         - Hero + featured project preview
+            ├── WorksPage.ts        - Projects with stacked photos + expand
+            ├── RoadmapPage.ts      - Career timeline
+            ├── SkillsPage.ts       - Tech stack + languages
+            ├── CertificatesPage.ts - Certificates grid
+            └── AboutPage.ts        - Bio + contact info
 ```
 
 ## Setup
@@ -68,7 +68,7 @@ npm run dev
 src/data/index.ts
 ```
 
-Edit that file — the site updates automatically.
+Edit that file - the site updates automatically.
 
 ## Adding a new project
 
@@ -85,8 +85,8 @@ In `src/data/index.ts`, add an object to the `PROJECTS` array:
   fullDesc: 'Full description shown when expanded. Can be long.',
   stack: ['TypeScript', 'React', 'PostgreSQL'],
   images: [
-    { src: '🖥️', alt: 'Screenshot 1' },   // replace src with real image path
-    { src: '📊', alt: 'Screenshot 2' },
+    { src: '', alt: 'Screenshot 1' },   // replace src with real image path
+    { src: '', alt: 'Screenshot 2' },
   ],
   githubUrl: 'https://github.com/...',
 }
@@ -101,5 +101,5 @@ Replace with `<img src="${img.src}" alt="${img.alt}" />` once you have real scre
 
 ```bash
 npm run build
-# Output goes to /dist — upload to any static host (Vercel, Netlify, GitHub Pages)
+# Output goes to /dist - upload to any static host (Vercel, Netlify, GitHub Pages)
 ```
