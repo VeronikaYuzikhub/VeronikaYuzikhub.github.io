@@ -4,8 +4,6 @@
 //  stacked Instagram-style photos + lightbox
 // ─────────────────────────────────────────
 
-import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { PROJECTS } from '@/data'
 import { renderFooter } from '@/components/Footer'
 import type { Lightbox } from '@/components/Lightbox'
@@ -39,97 +37,6 @@ function renderPhotoStack(images: { src: string; alt: string }[]): string {
         : img.src}
     </div>
   `).join('')
-}
-
-// ── 3D Pistol viewer (real GLB model) ────
-function initPistolViewer(wrap: HTMLElement): void {
-  const canvas = wrap.querySelector<HTMLCanvasElement>('canvas')!
-  const W = wrap.clientWidth  || 320
-  const H = wrap.clientHeight || 280
-
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
-  renderer.setSize(W, H)
-  renderer.setClearColor(0x000000, 0)
-  renderer.shadowMap.enabled = true
-
-  const scene  = new THREE.Scene()
-  const camera = new THREE.PerspectiveCamera(38, W / H, 0.01, 200)
-  camera.position.set(0, 0, 3)
-
-  scene.add(new THREE.AmbientLight(0xffffff, 1.2))
-  const d1 = new THREE.DirectionalLight(0xfff5e8, 2.0); d1.position.set(4, 6, 5);  scene.add(d1)
-  const d2 = new THREE.DirectionalLight(0xd0e8ff, 0.8); d2.position.set(-4, -3, 3); scene.add(d2)
-
-  const pivot = new THREE.Group()
-  scene.add(pivot)
-
-  let dragging = false, prevX = 0, prevY = 0, velX = 0, velY = 0
-  let autoRotate = true, autoTimer = 0
-  const resume = () => {
-    clearTimeout(autoTimer)
-    autoTimer = window.setTimeout(() => { autoRotate = true }, 2200)
-  }
-  wrap.style.cursor = 'grab'
-  wrap.addEventListener('mousedown', e => {
-    dragging = true; autoRotate = false; clearTimeout(autoTimer)
-    prevX = e.clientX; prevY = e.clientY; velX = 0; velY = 0
-    wrap.style.cursor = 'grabbing'
-  })
-  window.addEventListener('mousemove', e => {
-    if (!dragging) return
-    velY = (e.clientX - prevX) * 0.007; velX = (e.clientY - prevY) * 0.007
-    pivot.rotation.y += velY; pivot.rotation.x += velX
-    prevX = e.clientX; prevY = e.clientY
-  })
-  window.addEventListener('mouseup', () => {
-    if (!dragging) return; dragging = false; wrap.style.cursor = 'grab'; resume()
-  })
-  wrap.addEventListener('touchstart', e => {
-    const t = e.touches[0]; dragging = true; autoRotate = false; clearTimeout(autoTimer)
-    prevX = t.clientX; prevY = t.clientY
-  }, { passive: true })
-  wrap.addEventListener('touchmove', e => {
-    if (!dragging) return; const t = e.touches[0]
-    pivot.rotation.y += (t.clientX - prevX) * 0.007
-    pivot.rotation.x += (t.clientY - prevY) * 0.007
-    prevX = t.clientX; prevY = t.clientY
-  }, { passive: true })
-  wrap.addEventListener('touchend', () => { dragging = false; resume() })
-
-  // Load GLB
-  const loader = new GLTFLoader()
-  loader.load('/img/pistol/pistol.glb', gltf => {
-    const model = gltf.scene
-    // Scale first, then re-center at scaled dimensions
-    const box0  = new THREE.Box3().setFromObject(model)
-    const size0 = box0.getSize(new THREE.Vector3())
-    const maxDim = Math.max(size0.x, size0.y, size0.z)
-    model.scale.setScalar(2.2 / maxDim)
-    // Recompute center after scale
-    const box = new THREE.Box3().setFromObject(model)
-    const center = box.getCenter(new THREE.Vector3())
-    model.position.sub(center)
-    pivot.add(model)
-    pivot.rotation.y = 0.5
-    pivot.rotation.x = -0.15
-  })
-
-  let raf = 0
-  const loop = () => {
-    raf = requestAnimationFrame(loop)
-    if (autoRotate) { pivot.rotation.y += 0.005 }
-    else if (!dragging) { velX *= 0.93; velY *= 0.93; pivot.rotation.x += velX; pivot.rotation.y += velY }
-    renderer.render(scene, camera)
-  }
-  loop()
-
-  const ro = new ResizeObserver(() => {
-    const w = wrap.clientWidth, h = wrap.clientHeight
-    if (!w || !h) return
-    renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix()
-  })
-  ro.observe(wrap)
 }
 
 export function renderWorksPage(lightbox: Lightbox): HTMLElement {
@@ -172,6 +79,7 @@ export function renderWorksPage(lightbox: Lightbox): HTMLElement {
           ` : `
             <p class="project-short-desc">${proj.shortDesc}</p>
 
+            <!-- Expand / collapse full description -->
             <button class="project-expand-btn" data-proj="${proj.id}"></button>
             <div class="project-full-desc" id="full-${proj.id}">
               ${proj.fullDesc}
@@ -203,11 +111,6 @@ export function renderWorksPage(lightbox: Lightbox): HTMLElement {
             <div class="glass model-card">
               <div class="model-crystal">${CRYSTAL_SVG}</div>
               <div class="model-hint">drag · rotate · download stl</div>
-            </div>
-          ` : proj.id === 'pistol-mod' ? `
-            <div class="glass model-card pistol-viewer" id="pistol-viewer">
-              <canvas style="display:block;width:100%;height:100%;border-radius:inherit;"></canvas>
-              <div class="model-hint">drag · rotate</div>
             </div>
           ` : `
             <div class="photo-stack" data-proj="${proj.id}">
@@ -246,6 +149,7 @@ export function renderWorksPage(lightbox: Lightbox): HTMLElement {
     })
   })
 
+  // "View all images" button
   page.querySelectorAll<HTMLElement>('.stack-view-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const projId = btn.dataset.proj!
@@ -253,13 +157,6 @@ export function renderWorksPage(lightbox: Lightbox): HTMLElement {
       lightbox.open(proj.images, 0)
     })
   })
-
-  // ── Init pistol 3D viewer ───────────────
-  const pistolWrap = page.querySelector<HTMLElement>('#pistol-viewer')
-  if (pistolWrap) {
-    // Wait one frame so the element has layout dimensions
-    requestAnimationFrame(() => initPistolViewer(pistolWrap))
-  }
 
   return page
 }

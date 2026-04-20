@@ -628,26 +628,6 @@ body.cursor-hover #cursor-ring { width: 50px; height: 50px; border-color: rgba(2
   justify-content: center;
   gap: 14px;
 }
-.pistol-viewer {
-  height: 320px;
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-}
-.pistol-viewer canvas {
-  position: absolute;
-  inset: 0;
-  width: 100% !important;
-  height: 100% !important;
-}
-.pistol-viewer .model-hint {
-  position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  pointer-events: none;
-}
 .model-crystal {
   width: 96px;
   height: 96px;

@@ -39,7 +39,7 @@ export function renderAboutPage(router: Router): HTMLElement {
           in code, in design, and in the tools I build.
         </p>
         <div class="about-buttons">
-          <a href="./cv.pdf" class="btn btn-primary" download="Yuzik_Veronika_CV.pdf">Download CV</a>
+          <a href="/cv.pdf" class="btn btn-primary" download>Download CV</a>
           <button class="btn btn-ghost" id="about-see-works">See works</button>
         </div>
       </div>

@@ -15,7 +15,7 @@ export function renderHomePage(router: Router): HTMLElement {
     <!-- ── Hero ── -->
     <section class="hero">
       <div class="hero-left">
-        <div class="eyebrow">software engineer · back-end · Odesa</div>
+        <div class="eyebrow">software engineer · designer · Odesa</div>
         <div class="hero-name">Veronika</div>
         <div class="hero-lastname">Yuzik.</div>
         <p class="hero-desc">

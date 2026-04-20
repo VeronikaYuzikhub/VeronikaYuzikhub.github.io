@@ -12,19 +12,18 @@ import type { LowPolyShapeConfig } from '@/types'
 interface ShapeUserData {
   phase:number; rotX:number; rotY:number; rotZ:number;
   baseY:number; floatSpd:number; driftX:number; driftZ:number;
-  baseOp:number; baseScale:number; hovered:boolean; baseColor:number;
+  baseOp:number; baseScale:number; hovered:boolean;
 }
 interface ShapeMesh extends THREE.Mesh { userData: ShapeUserData }
 
 interface ParticleVel { x:number; y:number; phase:number; speed:number }
 
 const EASTER_EGGS = [
-  { title:'// ікосаедр',       text:'20 граней. Саме така форма\nу кубика D20 з D&D.\nТакож - у деяких вірусів.' },
-  { title:'// октаедр',        text:'8 граней - кристалічна\nструктура алмазу.\nПрирода теж любить геометрію.' },
-  { title:'// тетраедр',       text:'Найпростіше 3D-тіло: 4 грані.\nМолекула метану CH₄\nмає саме таку форму.' },
-  { title:'// платонові тіла', text:'Лише 5 правильних многогранників\nіснує у 3D-просторі.\nЦе довів Евклід у 300 до н.е.' },
-  { title:'// flatShading',    text:'Кожна грань - окремий колір.\nЦей стиль називається flat shading.\nВін же робить low-poly арт.' },
-  { title:'// геометрія',      text:'Ці фігури описав Платон\nще у 360 році до н.е.\nМи досі будуємо з них 3D-сцени.' },
+  { title:'// fun fact',   text:'seCADviews розпізнає типи розрізів\nточніше ніж більшість джунів.\nАвтор — Veronika.' },
+  { title:'// secret',     text:'Цей сайт написаний з нуля.\nБез шаблонів, без готових тем.\nТільки код і кава.' },
+  { title:'// про мене',   text:'Я будую інструменти які\nроблять складне — простим.\nІ красивим.' },
+  { title:'// технологія', text:'Three.js + TypeScript + Vite.\nКожна сфера — окремий об\'єкт\nз унікальною траєкторією.' },
+  { title:'// easter egg',  text:'Ти знайшла це. Значить\nтобі не байдуже до деталей.\nМені теж.' },
 ]
 
 export class BackgroundScene {
@@ -86,7 +85,7 @@ export class BackgroundScene {
     }
     geo.computeVertexNormals()
     const mat=new THREE.MeshPhongMaterial({color:cfg.color,flatShading:true,transparent:true,opacity:cfg.opacity,shininess:25})
-    const m=new THREE.Mesh(geo,mat) as unknown as ShapeMesh
+    const m=new THREE.Mesh(geo,mat) as ShapeMesh
     m.position.set(cfg.x,cfg.y,cfg.z); m.scale.setScalar(cfg.scale)
     m.userData={ phase:Math.random()*Math.PI*2, rotX:(Math.random()-.5)*.005,
       rotY:(Math.random()-.5)*.007, rotZ:(Math.random()-.5)*.003,
