@@ -203,10 +203,11 @@ export class BackgroundScene {
         'position:fixed;z-index:400;' +
         'background:var(--glass2);border:1px solid var(--border);border-radius:20px;padding:24px 30px;' +
         'backdrop-filter:blur(28px);max-width:260px;width:88vw;text-align:center;' +
-        'opacity:0;transform:scale(0.9);transition:opacity .4s,transform .4s;pointer-events:all;cursor:pointer;'
+        'opacity:0;transform:scale(0.9);transition:opacity .4s,transform .4s;pointer-events:none;cursor:pointer;'
       document.body.appendChild(el)
       el.addEventListener('click', () => this.hideEgg())
     }
+    el.style.pointerEvents = 'all'
     const pw = Math.min(260, innerWidth * 0.88), ph = 140
     let lx = this.mouse.cx + 22, ly = this.mouse.cy - ph / 2
     if (lx + pw > innerWidth - 12) lx = this.mouse.cx - pw - 22
@@ -232,6 +233,7 @@ export class BackgroundScene {
     if (!el) return
     el.style.opacity = '0'
     el.style.transform = 'scale(0.92)'
+    el.style.pointerEvents = 'none'
   }
 
   start(): void {

@@ -55,6 +55,12 @@ body.cursor-hover #cursor-ring { width: 50px; height: 50px; border-color: rgba(2
   transform: translateY(0);
 }
 
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  body { cursor: auto; }
+  #cursor-dot, #cursor-ring { display: none !important; }
+}
+
 /* ══════════════════════════════════════════
    LOADING SCREEN
 ══════════════════════════════════════════ */
